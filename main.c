@@ -79,35 +79,33 @@ void newGame(){
     clrscr();
     printf("Generating game...\n");
 
+    long int seed = time(NULL);
     for(int i = 0; i < 1000; i++){
-        long int seed = time(NULL);
-        for(int i = 0; i < 500; i++){
-            srand(seed);
-            seed = rand();
-                switch(seed % 4){
-                    case 0:
-                        if(headIndex[0] != 3){
-                            randomiser('d');
-                        }
-                        break;
-                    case 1:
-                        if(headIndex[1] != 0){
-                            randomiser('l');
-                        }
-                        break;
-                    case 2:
-                        if(headIndex[0] != 0){
-                            randomiser('u');
-                        }
-                        break;
-                    case 3:
-                        if(headIndex[1] != 3){
-                            randomiser('r');
-                        }
-                        break;
-                }
+        srand(seed);
+        seed = rand();
+            switch(seed % 4){
+                case 0:
+                    if(headIndex[0] != 3){
+                        randomiser('d');
+                    }
+                    break;
+                case 1:
+                    if(headIndex[1] != 0){
+                        randomiser('l');
+                    }
+                    break;
+                case 2:
+                    if(headIndex[0] != 0){
+                        randomiser('u');
+                    }
+                    break;
+                case 3:
+                    if(headIndex[1] != 3){
+                        randomiser('r');
+                    }
+                    break;
+            }
         }
-    }
     game();
 }
 
