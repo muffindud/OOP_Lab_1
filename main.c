@@ -23,10 +23,11 @@
     }
 #endif
 
-FILE *saveFile, *saveState;
+FILE *saveState;
 int initialState[4][4];
 int currentState[4][4];
 int headIndex[2];
+char ch;
 
 //todo: add move history variable here
 
@@ -172,23 +173,29 @@ void mainMenu(){
     // Main menu
     clrscr();
     printf("Pick yout option:\n");
-    if(true/*check for game progress in saveState*/){ //todo: check for last save file
+    if(fopen("save-state.txt", "r") != NULL){
         printf("[c]: Continue\n");
     }
     printf("[n]: New game\n");
-    printf("[s]: Pick a save file\n");
     printf("[q]: Quit the game\n");
     while(true){
         char command = tolower((char)getch());
         switch(command){
             case 'c':
-                //todo: pick last save file
+                if(fopen("save-state.txt", "r") != NULL){
+                    saveState = fopen("save-state.txt", "r");
+                    for(int j = 0; j < 4; j++){
+                        for(int i = 0; i < 4; i++){
+                            fscanf(saveState, "%d%c", &currentState[i][j], ch);
+                        }
+                    }
+                    fscanf(saveState, "%d%c%d", &headIndex[0], ch, &headIndex[1]);
+                    fclose(saveState);
+                    game();
+                }
                 break;
             case 'n':
                 newGame();
-                break;
-            case 's':
-                savesMenu();
                 break;
             case 'q':
                 exit(0);
@@ -199,12 +206,14 @@ void mainMenu(){
     }
 }
 
+/*
 void savesMenu(){
     // Save menu
     clrscr();
     printf("Saves menu:\n");
     //todo: list all save instances here
 }
+*/
 
 //DONE
 void finish(){
@@ -338,6 +347,14 @@ void game(){
                 break;
             case 'm':
                 // Main menu
+                saveState = fopen("save-state.txt", "w+");
+                for(int j = 0; j < 4; j++){
+                    for(int i = 0; i < 4; i++){
+                        fprintf(saveState, "%d ", currentState[i][j]);
+                    }
+                }
+                fprintf(saveState, "%d %d", headIndex[0], headIndex[1]);
+                fclose(saveState);
                 mainMenu();
                 break;
             case 'r':
@@ -361,5 +378,11 @@ void game(){
 }
 
 int main(){
+    for(int j = 0; j < 4; j++){
+        for(int i = 0; i < 4; i++){
+            initialState[i][j] = 4 * j + i + 1;
+        }
+    }
+    initialState[3][3] = 0;
     mainMenu();
 }
