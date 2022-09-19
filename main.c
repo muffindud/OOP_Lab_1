@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #ifdef _WIN32
+    #pragma execution_character_set( "utf-8" )
     #include <conio.h>
 #elif __linux__
     #include <termios.h>
@@ -402,6 +403,9 @@ void game(){
 }
 
 int main(){
+    #ifdef _WIN32
+        SetConsoleOutputCP(65001);
+    #endif
     for(int j = 0; j < 4; j++){
         for(int i = 0; i < 4; i++){
             initialState[i][j] = 4 * j + i + 1;
