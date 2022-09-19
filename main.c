@@ -27,7 +27,6 @@ FILE *saveFile, *saveState;
 int initialState[4][4];
 int currentState[4][4];
 int headIndex[2];
-int result;
 
 //todo: add move history variable here
 
@@ -60,6 +59,7 @@ bool check(){
     finish();
 }
 
+//DONE
 void newGame(){
     // Creates a new game
     headIndex[0] = 3;
@@ -72,12 +72,43 @@ void newGame(){
     }
     currentState[3][3] = 0;
     initialState[3][3] = 0;
-    for(int i = 0; i < 100; i++){
-        
+
+    clrscr();
+    printf("Generating game...\n");
+
+    for(int i = 0; i < 1000; i++){
+        long int seed = time(NULL);
+        for(int i = 0; i < 500; i++){
+            srand(seed);
+            seed = rand();
+                switch(seed % 4){
+                    case 0:
+                        if(headIndex[0] != 3){
+                            randomiser('d');
+                        }
+                        break;
+                    case 1:
+                        if(headIndex[1] != 0){
+                            randomiser('l');
+                        }
+                        break;
+                    case 2:
+                        if(headIndex[0] != 0){
+                            randomiser('u');
+                        }
+                        break;
+                    case 3:
+                        if(headIndex[1] != 3){
+                            randomiser('r');
+                        }
+                        break;
+                }
+        }
     }
     game();
 }
 
+//DONE
 void randomiser(char dir){
     switch (dir){
     case 'd':
@@ -146,6 +177,7 @@ void mainMenu(){
     }
     printf("[n]: New game\n");
     printf("[s]: Pick a save file\n");
+    printf("[q]: Quit the game\n");
     while(true){
         char command = tolower((char)getch());
         switch(command){
@@ -157,6 +189,9 @@ void mainMenu(){
                 break;
             case 's':
                 savesMenu();
+                break;
+            case 'q':
+                exit(0);
                 break;
             default:
                 break;
@@ -171,8 +206,7 @@ void savesMenu(){
     //todo: list all save instances here
 }
 
-
-//todo: implement finish screen
+//DONE
 void finish(){
     // The finish screen
     clrscr();
@@ -182,77 +216,74 @@ void finish(){
     mainMenu();
 }
 
-//DONE
+//DONE (missing some features)
 // The main game
 void game(){
     // The game takes place here
     clrscr();
 
-    printf("%d %d\n", headIndex[0], headIndex[1]);
-    printf("%d\n", result);
-
     // handle the output
     // main game output
-    printf("\u2554\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2557\n");
+    printf("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n");
     for(int j = 0; j < 4; j++){
         if(j != 0){
             // Borders
             if(headIndex[0] == j - 1){
                 switch(headIndex[1]){
                     case 0:
-                        printf("\u2560\u2550\u21E9\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2563\n");
+                        printf("\u2560\u2550\u2550\u21E9\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
                         break;
                     case 1:
-                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u21E9\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2563\n");
+                        printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u21E9\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
                         break;
                     case 2:
-                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u21E9\u2550\u256C\u2550\u2550\u2550\u2563\n");
+                        printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u21E9\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
                         break;
                     case 3:
-                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u21E9\u2550\u2563\n");
+                        printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u21E9\u2550\u2550\u2550\u2563\n");
                         break;
                 }
             }
             else if(headIndex[0] == j){
                 switch(headIndex[1]){
                     case 0:
-                        printf("\u2560\u2550\u21E7\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2563\n");
+                        printf("\u2560\u2550\u2550\u21E7\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
                         break;
                     case 1:
-                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u21E7\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2563\n");
+                        printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u21E7\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
                         break;
                     case 2:
-                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u21E7\u2550\u256C\u2550\u2550\u2550\u2563\n");
+                        printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u21E7\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
                         break;
                     case 3:
-                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u21E7\u2550\u2563\n");
+                        printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u21E7\u2550\u2550\u2550\u2563\n");
                         break;
                 }
             }
             else{
-                printf("\u2560\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2563\n");
+                printf("\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n");
             }
         }
         // Numbers
-        printf("\u2551   \u2551   \u2551   \u2551   \u2551\n");
+        printf("\u2551      \u2551      \u2551      \u2551      \u2551\n");
         for(int i = 0; i < 4; i++){
             if(currentState[i][j] == 0 && i != 0){
-                printf("\u21E6   ");
+                printf("\u21E6      ");
             }
             else if(currentState[i - 1][j] == 0 && i != 0){
-                printf("\u21E8 %2d", currentState[i][j]);
+                printf("\u21E8  %2d  ", currentState[i][j]);
             }
             else if(currentState[i][j] == 0){
-                printf("\u2551   ");
+                printf("\u2551      ");
             }
             else{
-                printf("\u2551 %2d", currentState[i][j]);
+                printf("\u2551  %2d  ", currentState[i][j]);
             }
         }
         printf("\u2551\n");
-        printf("\u2551   \u2551   \u2551   \u2551   \u2551\n");
+        printf("\u2551      \u2551      \u2551      \u2551      \u2551\n");
     }
-    printf("\u255A\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u255D\n");
+    printf("\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2550\u2550\u2550\u255D\n");
 
     //menu
     if(headIndex[0] != 0){
