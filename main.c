@@ -6,7 +6,6 @@
 #ifdef _WIN32
     #include <conio.h>
 #elif __linux__
-    #include <stdio.h>
     #include <termios.h>
     #include <unistd.h>
 
@@ -27,9 +26,9 @@ FILE *saveState;
 int initialState[4][4];
 int currentState[4][4];
 int headIndex[2];
+int moves, length;
 char ch;
-
-//todo: add move history variable here
+char *moveHistory;
 
 //DONE
 void clrscr(){
@@ -40,15 +39,18 @@ void clrscr(){
     #endif
 }
 
-// Game functionalities
-void undo(){
-    // Undoes the move
-    // (need move history)
-    game();
+//DONE
+void delSave(){
+    #ifdef _WIN32
+        system("del \"save-state.txt\"");
+    #elif __linux__
+        system("rm save-state.txt");
+    #endif
 }
 
+// Game functionalities
 //DONE
-bool check(){
+void check(){
     // Check if the game is solved
     for(int j = 0; j < 4; j++){
         for(int i = 0; i < 4; i++){
@@ -63,6 +65,10 @@ bool check(){
 //DONE
 void newGame(){
     // Creates a new game
+    free(moveHistory);
+    moveHistory = (char*)malloc(0 * sizeof(char));
+    moves = 0;
+    length = 0;
     headIndex[0] = 3;
     headIndex[1] = 3;
     for(int j = 0; j < 4; j++){
@@ -136,8 +142,41 @@ void randomiser(char dir){
 }
 
 //DONE
+void undo(){
+    // Undoes the move
+    moves--;
+    switch (moveHistory[moves]){
+        case 'd':
+            randomiser('u');
+            break;
+        case 'l':
+            randomiser('r');
+            break;
+        case 'u':
+            randomiser('d');
+            break;
+        case 'r':
+            randomiser('l');
+            break;
+        }
+    game();
+}
+
+..DONE
+void redo(){
+    // Redoes the move
+    randomiser(moveHistory[moves]);
+    moves++;
+    game();
+}
+
+//DONE
 void makeMove(char dir){
     // Moves the headIndex
+    moves++;
+    length = moves;
+    moveHistory = (char*)realloc(moveHistory, moves * sizeof(char));
+    moveHistory[moves - 1] = dir;
     switch (dir){
     case 'd':
         currentState[headIndex[1]][headIndex[0]] = currentState[headIndex[1]][headIndex[0] + 1];
@@ -198,6 +237,7 @@ void mainMenu(){
                 newGame();
                 break;
             case 'q':
+                free(moveHistory);
                 exit(0);
                 break;
             default:
@@ -206,26 +246,19 @@ void mainMenu(){
     }
 }
 
-/*
-void savesMenu(){
-    // Save menu
-    clrscr();
-    printf("Saves menu:\n");
-    //todo: list all save instances here
-}
-*/
-
 //DONE
 void finish(){
     // The finish screen
     clrscr();
+    free(moveHistory);
+    delSave();
     printf("Congrats! You solved the puzzle\n");
     printf("--Press any button to return to the main menu--\n");
     getch();
     mainMenu();
 }
 
-//DONE (missing some features)
+//DONE
 // The main game
 void game(){
     // The game takes place here
@@ -310,10 +343,10 @@ void game(){
     printf("\n");
     printf("[m]: Main menu\n");
     printf("[r]: Restart the game\n");
-    if(true/*exists prev. move*/){ //todo: check history (need move history)
+    if(moves != 0){
         printf("[b]: Undo\n");
     }
-    if(true/*exists redo move*/){ //todo: chech history (need move history)
+    if(moves < length){
         printf("[n]: Redo\n");
     }
 
@@ -362,14 +395,14 @@ void game(){
                 newGame();
             case 'b':
                 // Undo move
-                if(true/*exsits prev. move*/){ //todo: check history (need history variable)
-                    // Undo
+                if(moves != 0){
+                    undo();
                 }
                 break;
             case 'n':
                 // Redo move
-                if(true/*exists next move*/){ //todo: check history (need history variable)
-                    // Redo
+                if(moves < length){
+                    redo();
                 }
                 break;
         }
