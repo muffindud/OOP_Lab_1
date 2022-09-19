@@ -6,7 +6,22 @@
 #ifdef _WIN32
     #include <conio.h>
 #elif __linux__
-    #include <curses.h> // requires libncursesw5-dev
+    #include <stdio.h>
+    #include <termios.h>
+    #include <unistd.h>
+    
+
+    int getch(void) { 
+        struct termios oldattr, newattr; 
+        int ch; 
+        tcgetattr(STDIN_FILENO, &oldattr); 
+        newattr = oldattr; 
+        newattr.c_lflag &= ~(ICANON | ECHO); 
+        tcsetattr(STDIN_FILENO, TCSANOW, &newattr); 
+        ch = getchar(); 
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldattr); 
+        return ch; 
+    }
 #endif
 
 FILE *saveFile, *saveState;
@@ -16,11 +31,6 @@ int headIndex[2];
 int result;
 
 //todo: add move history variable here
-
-// // BECAUSE WINDOWS F**KING SUCKS!
-// #ifdef _WIN32
-//     system("CHCP 65001");
-// #endif
 
 void clrscr(){
     #ifdef _WIN32
