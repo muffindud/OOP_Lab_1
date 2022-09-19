@@ -61,7 +61,6 @@ void check(){
 
 void newGame(){
     // Creates a new game
-    free(moveHistory);
     moveHistory = (char*)malloc(0 * sizeof(char));
     moves = 0;
     length = 0;
@@ -230,7 +229,6 @@ void mainMenu(){
                 newGame();
                 break;
             case 'q':
-                free(moveHistory);
                 exit(0);
                 break;
             default:
@@ -371,6 +369,7 @@ void game(){
                 break;
             case 'm':
                 // Main menu
+                free(moveHistory);
                 saveState = fopen("save-state.txt", "w+");
                 for(int j = 0; j < 4; j++){
                     for(int i = 0; i < 4; i++){
@@ -383,6 +382,7 @@ void game(){
                 break;
             case 'r':
                 // Restart game
+                free(moveHistory);
                 newGame();
             case 'b':
                 // Undo move
