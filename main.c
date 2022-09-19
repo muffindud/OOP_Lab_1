@@ -30,7 +30,6 @@ int moves, length;
 char ch;
 char *moveHistory;
 
-//DONE
 void clrscr(){
     #ifdef _WIN32
         system("cls");
@@ -39,7 +38,6 @@ void clrscr(){
     #endif
 }
 
-//DONE
 void delSave(){
     #ifdef _WIN32
         system("del \"save-state.txt\"");
@@ -49,7 +47,6 @@ void delSave(){
 }
 
 // Game functionalities
-//DONE
 void check(){
     // Check if the game is solved
     for(int j = 0; j < 4; j++){
@@ -62,7 +59,6 @@ void check(){
     finish();
 }
 
-//DONE
 void newGame(){
     // Creates a new game
     free(moveHistory);
@@ -115,8 +111,8 @@ void newGame(){
     game();
 }
 
-//DONE
 void randomiser(char dir){
+    // Move tiles without checking
     switch (dir){
     case 'd':
         currentState[headIndex[1]][headIndex[0]] = currentState[headIndex[1]][headIndex[0] + 1];
@@ -141,7 +137,6 @@ void randomiser(char dir){
     }
 }
 
-//DONE
 void undo(){
     // Undoes the move
     moves--;
@@ -162,7 +157,6 @@ void undo(){
     game();
 }
 
-..DONE
 void redo(){
     // Redoes the move
     randomiser(moveHistory[moves]);
@@ -170,9 +164,8 @@ void redo(){
     game();
 }
 
-//DONE
 void makeMove(char dir){
-    // Moves the headIndex
+    // Moves the headIndex with check on 3, 3
     moves++;
     length = moves;
     moveHistory = (char*)realloc(moveHistory, moves * sizeof(char));
@@ -246,7 +239,6 @@ void mainMenu(){
     }
 }
 
-//DONE
 void finish(){
     // The finish screen
     clrscr();
@@ -258,7 +250,6 @@ void finish(){
     mainMenu();
 }
 
-//DONE
 // The main game
 void game(){
     // The game takes place here
