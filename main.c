@@ -216,10 +216,10 @@ void mainMenu(){
                     saveState = fopen("save-state.txt", "r");
                     for(int j = 0; j < 4; j++){
                         for(int i = 0; i < 4; i++){
-                            fscanf(saveState, "%d%c", &currentState[i][j], ch);
+                            fscanf(saveState, "%d ", &currentState[i][j];
                         }
                     }
-                    fscanf(saveState, "%d%c%d", &headIndex[0], ch, &headIndex[1]);
+                    fscanf(saveState, "%d %d", &headIndex[0], &headIndex[1]);
                     fclose(saveState);
                     game();
                 }
@@ -369,6 +369,8 @@ void game(){
             case 'm':
                 // Main menu
                 free(moveHistory);
+                moves = 0;
+                length = 0;
                 saveState = fopen("save-state.txt", "w+");
                 for(int j = 0; j < 4; j++){
                     for(int i = 0; i < 4; i++){
