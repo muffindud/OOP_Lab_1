@@ -9,7 +9,6 @@
     #include <stdio.h>
     #include <termios.h>
     #include <unistd.h>
-    
 
     int getch(void) { 
         struct termios oldattr, newattr; 
@@ -32,6 +31,7 @@ int result;
 
 //todo: add move history variable here
 
+//DONE
 void clrscr(){
     #ifdef _WIN32
         system("cls");
@@ -177,6 +177,7 @@ void finish(){
     // The finish screen
     clrscr();
     printf("Congrats! You solved the puzzle\n");
+    printf("--Press any button to return to the main menu--\n");
     getch();
     mainMenu();
 }
@@ -192,66 +193,66 @@ void game(){
 
     // handle the output
     // main game output
-    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 201, 205, 205, 205, 203, 205, 205, 205, 203, 205, 205, 205, 203, 205, 205, 205, 187);
+    printf("\u2554\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2557\n");
     for(int j = 0; j < 4; j++){
         if(j != 0){
             // Borders
             if(headIndex[0] == j - 1){
                 switch(headIndex[1]){
                     case 0:
-                        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 204, 205, 25, 205, 206, 205, 205, 205, 206, 205, 205, 205, 206, 205, 205, 205, 185);
+                        printf("\u2560\u2550\u21E9\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2563\n");
                         break;
                     case 1:
-                        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 204, 205, 205, 205, 206, 205, 25, 205, 206, 205, 205, 205, 206, 205, 205, 205, 185);
+                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u21E9\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2563\n");
                         break;
                     case 2:
-                        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 204, 205, 205, 205, 206, 205, 205, 205, 206, 205, 25, 205, 206, 205, 205, 205, 185);
+                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u21E9\u2550\u256C\u2550\u2550\u2550\u2563\n");
                         break;
                     case 3:
-                        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 204, 205, 205, 205, 206, 205, 205, 205, 206, 205, 205, 205, 206, 205, 25, 205, 185);
+                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u21E9\u2550\u2563\n");
                         break;
                 }
             }
             else if(headIndex[0] == j){
                 switch(headIndex[1]){
                     case 0:
-                        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 204, 205, 24, 205, 206, 205, 205, 205, 206, 205, 205, 205, 206, 205, 205, 205, 185);
+                        printf("\u2560\u2550\u21E7\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2563\n");
                         break;
                     case 1:
-                        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 204, 205, 205, 205, 206, 205, 24, 205, 206, 205, 205, 205, 206, 205, 205, 205, 185);
+                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u21E7\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2563\n");
                         break;
                     case 2:
-                        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 204, 205, 205, 205, 206, 205, 205, 205, 206, 205, 24, 205, 206, 205, 205, 205, 185);
+                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u21E7\u2550\u256C\u2550\u2550\u2550\u2563\n");
                         break;
                     case 3:
-                        printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 204, 205, 205, 205, 206, 205, 205, 205, 206, 205, 205, 205, 206, 205, 24, 205, 185);
+                        printf("\u2560\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u21E7\u2550\u2563\n");
                         break;
                 }
             }
             else{
-                printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 204, 205, 205, 205, 206, 205, 205, 205, 206, 205, 205, 205, 206, 205, 205, 205, 185);
+                printf("\u2560\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u256C\u2550\u2550\u2550\u2563\n");
             }
         }
         // Numbers
-        printf("%c   %c   %c   %c   %c\n", 186, 186, 186, 186, 186);
+        printf("\u2551   \u2551   \u2551   \u2551   \u2551\n");
         for(int i = 0; i < 4; i++){
             if(currentState[i][j] == 0 && i != 0){
-                printf("<   ");
+                printf("\u21E6   ");
             }
             else if(currentState[i - 1][j] == 0 && i != 0){
-                printf("> %2d", currentState[i][j]);
+                printf("\u21E8 %2d", currentState[i][j]);
             }
             else if(currentState[i][j] == 0){
-                printf("%c   ", 186);
+                printf("\u2551   ");
             }
             else{
-                printf("%c %2d", 186, currentState[i][j]);
+                printf("\u2551 %2d", currentState[i][j]);
             }
         }
-        printf("%c\n", 186);
-        printf("%c   %c   %c   %c   %c\n", 186, 186, 186, 186, 186);
+        printf("\u2551\n");
+        printf("\u2551   \u2551   \u2551   \u2551   \u2551\n");
     }
-    printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 200, 205, 205, 205, 202, 205, 205, 205, 202, 205, 205, 205, 202, 205, 205, 205, 188);
+    printf("\u255A\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u2569\u2550\u2550\u2550\u255D\n");
 
     //menu
     if(headIndex[0] != 0){
