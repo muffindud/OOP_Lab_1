@@ -243,7 +243,9 @@ void finish(){
     // The finish screen
     clrscr();
     free(moveHistory);
-    delSave();
+    if(fopen("save-state.txt", "r") != NULL){
+        delSave();
+    }
     printf("Congrats! You solved the puzzle\n");
     printf("--Press any button to return to the main menu--\n");
     getch();
@@ -254,9 +256,7 @@ void finish(){
 void game(){
     // The game takes place here
     clrscr();
-
     // handle the output
-    // main game output
     printf("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2566\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n");
     for(int j = 0; j < 4; j++){
         if(j != 0){
