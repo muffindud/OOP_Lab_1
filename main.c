@@ -32,6 +32,7 @@ char ch;
 char *moveHistory;
 
 void clrscr(){
+    // Used for screen reset
     #ifdef _WIN32
         system("cls");
     #elif __linux__
@@ -40,6 +41,7 @@ void clrscr(){
 }
 
 void delSave(){
+    // Used for save file reset
     #ifdef _WIN32
         system("del \"save-state.txt\"");
     #elif __linux__
@@ -70,17 +72,16 @@ void newGame(){
     for(int j = 0; j < 4; j++){
         for(int i = 0; i < 4; i++){
             currentState[i][j] = 4 * j + i + 1;
-            initialState[i][j] = currentState[i][j];
         }
     }
     currentState[3][3] = 0;
-    initialState[3][3] = 0;
 
     clrscr();
     printf("Generating game...\n");
 
     long int seed = time(NULL);
     for(int i = 0; i < 1000; i++){
+        // Creates a random pattern by randomising 1000 moves
         srand(seed);
         seed = rand();
             switch(seed % 4){
@@ -191,6 +192,7 @@ void makeMove(char dir){
         break;
     }
     if(headIndex[0] == 3 && headIndex[1] == 3){
+        // Check when the empty tile is in the last row and column
         check();
     }
     else{
@@ -212,11 +214,12 @@ void mainMenu(){
         char command = tolower((char)getch());
         switch(command){
             case 'c':
+                // If there is a save-state.txt you can continue
                 if(fopen("save-state.txt", "r") != NULL){
                     saveState = fopen("save-state.txt", "r");
                     for(int j = 0; j < 4; j++){
                         for(int i = 0; i < 4; i++){
-                            fscanf(saveState, "%d ", &currentState[i][j];
+                            fscanf(saveState, "%d ", &currentState[i][j]);
                         }
                     }
                     fscanf(saveState, "%d %d", &headIndex[0], &headIndex[1]);
@@ -371,6 +374,7 @@ void game(){
                 free(moveHistory);
                 moves = 0;
                 length = 0;
+                // Save game to save-state.txt
                 saveState = fopen("save-state.txt", "w+");
                 for(int j = 0; j < 4; j++){
                     for(int i = 0; i < 4; i++){
