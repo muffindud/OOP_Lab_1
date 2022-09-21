@@ -1,7 +1,6 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <time.h>
-#include <stdbool.h>
 
 #ifdef _WIN32
     #pragma execution_character_set( "utf-8" )
@@ -210,7 +209,7 @@ void mainMenu(){
     }
     printf("[n]: New game\n");
     printf("[q]: Quit the game\n");
-    while(true){
+    while(1){
         char command = tolower((char)getch());
         switch(command){
             case 'c':
@@ -342,7 +341,7 @@ void game(){
     }
 
     // handle the input
-    while(true){
+    while(1){
         char command = tolower((char)getch());
         switch(command){
             case 'w':
