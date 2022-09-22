@@ -370,7 +370,6 @@ void game(){
                 break;
             case 'm':
                 // Main menu
-                free(moveHistory);
                 moves = 0;
                 length = 0;
                 // Save game to save-state.txt
